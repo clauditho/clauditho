@@ -1,0 +1,255 @@
+<div class="container center">
+
+    <br/>
+    <br>
+
+
+
+    <form class="row g-5 border ">
+ 
+  
+
+      <!--FECHA--->
+      <div class="col-md-3">
+        <label for="inputEmail4" class="form-label">Fecha</label>
+        <input id="fecha" name="fecha" type="date" class="form-control">
+      </div>
+      <!-------->
+ 
+ 
+      <!--numero orden de compra---> 
+      <div class="col-2">
+          <label for="inputEmail4" class="form-label">N° OC</label>
+          <input type="text" class="form-control" id="inputEmail4">
+        </div>
+      <!------>
+
+
+
+
+      <!--Proveedor-->
+
+      <div class="col-md-3">
+        <label for="inputState" class="form-label">Proveedor</label>
+        <select id="proveedor" class="form-select">
+          
+          <option selected>Seleccione</option>
+          
+          {% for item in prov %}
+            <option value="{{item.idproveedor}}"> {{item.nombre}} </option>
+          {% endfor %}
+        
+        
+        </select>
+      </div>
+
+      <!------------------------>
+
+
+
+
+      <!---Moneda---------------------------------------->
+
+      <div class="col-md-2">
+        <label for="inputState" class="form-label">Moneda</label>
+        <select id="inputState" class="form-select">
+          <option selected>Seleccione</option>
+          
+          {% for item in moneda %}
+            <option value="{{item.idmoneda}}"> {{item.codigoiso}} -- {{item.pais}} </option>
+          {% endfor %}
+
+
+        </select>
+      </div>
+
+      <!---------------------------------------------------------->
+
+        <!---Forma de pagp---------------------------------------->
+
+        <div class="col-md-2">
+          <label for="inputState" class="form-label">Forma de Pago</label>
+          <select id="inputState" class="form-select">
+            <option selected>Seleccione</option>
+            {% for item in fpago %}
+              <option value="{{item.idfpago}}"> {{item.fpago}} </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!---------------------------------------------->
+
+
+
+      <div class="col-md-2">
+        <p></p>
+      </div>   
+
+      <!---Cuarteles---------------------------------------->
+      
+
+      <div class="col-md-8" >
+        <p></p>
+        <p></p>
+        <p></p>
+        <br>
+        <p style="text-align: center;">Centro de costos</p>
+        <p><div id="SimpleJSTree"></div></p>
+      </div>
+
+      <!----------------------------------------------------------->
+
+      
+        <div class="col-md-2">
+        <p></p>
+          </div>
+
+          <p></p>
+          <p></p>
+          <p></p>
+        
+          <!------RAdio buttons  productos servicios---->
+          
+          <div class="row" >
+              <div class="col-md-6">
+                <input class="form-check-input prodserv" type="radio" name="prodserv" id="prodserv" value="productos" checked>
+                <label class="form-check-label" for="flexRadioDefault2">Agroquimicos/insumos</label>
+              </div>
+              <div class="col-md-6">
+                <input class="form-check-input prodserv" type="radio" name="prodserv" id="flexRadioDefault2" value="servicios" >
+                <label class="form-check-label" for="flexRadioDefault2">Servicios</label>
+              </div>
+            </div>
+
+            <!--------------------------------------------------->
+        
+            <p></p>
+
+            <!--------------------FILA-------------------------------------------->
+            <!----- Cantidad ---------->
+            <div class="row">
+              <div class="col-md-1">
+                <label for="" class="form-label">Cantidad</label>
+                <input type="text" class="form-control" id="cantidad">
+              </div>
+            <!---------------------------------------------->  
+
+              
+            <!----------------medida------------------------->
+            <div class="col-md-1">
+              <label for="inputState" class="form-label">Medida</label>
+                <select id="medida" class="form-select">
+                  <option value="0"  >Seleccione</option>
+                  {% for item in medida %}
+                    <option value="{{item.idmedida}}"> {{item.umedida}} </option>
+                  {% endfor %}
+                </select>
+                </div>
+
+              <!---------------------------------------------------->
+              
+              <!-----------------Producto/servicio------------------------------>
+                <div class="col-md-2" id="prod" name="prod">
+                    <label for="inputState" class="form-label">Productos</label>
+                      <select id="producto" class="form-select">
+                        <option value="0" selected>Seleccione</option>
+                        {% for item in prod %}
+                          <option value="{{item.idprod}}"> {{item.nomprod}} </option>
+                        {% endfor %}
+                      </select>
+                  </div>
+
+                  <div class="col-md-2" id="serv" style="display: none">
+                    <label for="Textarea1" class="form-label">Servicios</label>
+                    <textarea class="form-control" id="servizio" rows="3"></textarea>
+                    
+                    </div>
+
+                  <!------------------------------------------------------->
+                
+                     <!--------------Item Gasto--------------------------> 
+                      <div class="col-md-2">
+                        <label for="inputState" class="form-label">Item Gasto</label>
+                          <select id="gasto" class="form-select">
+                            <option value="0" selected>Seleccione</option>
+                            {% for item in pcuentas %}
+                              <option value="{{item.idplan}}"> {{item.descripcion}} </option>
+                            {% endfor %}
+                          </select>
+                      </div>
+                      
+                      <!-------------------Unitario------------------------------>
+                      <div class="col-md-2">
+                        <label for="" class="form-label">Unitario</label>
+                        <input type="text" class="form-control decimal" id="unitario">
+                      </div>
+
+                      <!---------------------------------------------------->
+
+                      
+                      <!----------exento--------------------->
+                      <div class="col-md-2">
+                        <label for="" class="form-label">Exento</label>
+                        <input type="text" class="form-control decimal" id="exento">
+                      </div>
+
+                      <!-------------------------------------------------->
+            
+            </div>
+
+
+            <!-------------------------------------------------------------->
+            <p></p>
+            <div class="row">
+              <div class="col-md-2">
+                
+                </div>
+
+                <div class="col-md-2">
+                
+              </div>
+              
+              <div class="col-md-2">
+                
+              </div>
+
+              <div class="col-md-2">
+                
+              </div>
+              <div class="col-md-2">
+                
+              </div>
+
+              <div class="col-md-2">
+                <button type="button" class="btn btn-primary" id="btnagregar">+</button>
+                </div>
+                  
+              </div>
+
+              
+            <div id="status">
+              <table id="tabla1" class="display" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Cantidad</th>
+                    <th>Umedida</th>
+                    <th>Prod/Serv</th>
+                    <th>Item Gasto</th>
+                    <th>$ Unitario</th>
+                    <th>$ Exento</th>
+                    </tr>
+                  
+                  </thead>
+                
+                </table>
+              </div>
+</form>
+
+
+
+</div>
+<p></p>
+<p></p>
+<p></p> 
+<br>
+<br>

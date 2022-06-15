@@ -1,0 +1,82 @@
+def arbol(request):
+    template_name = 'arbol.html'
+    camp = Campos.objects.filter(rutfk='1-0')
+    
+    listcontenedora = []
+    listadic = []
+
+    for c in range(len(camp)):
+        print(camp[c].nomcam)
+        listCamp = []
+        listCamp.append(camp[c].nomcam)
+        listcontenedora.append(listCamp)
+
+        diccamp = {}
+        diccamp['text'] = camp[c].nomcam
+        listadic.append(diccamp)
+
+        esp = Campoespecies.objects.filter(idcamfk=camp[c].idcamp)
+        
+        listEspecie = []
+        
+        diclistesp = []
+        #dicespecie = {}
+        for e in range(len(esp)):
+            dicespecie = {}
+            
+            print(esp[e].idespfk.nombre)
+            listEspecie.append(esp[e].idespfk.nombre)
+            camvar = Campovariedades.objects.filter(idcamfk=camp[c].idcamp,idespfk=esp[e].idespfk.idesp)
+            dicespecie['text']=esp[e].idespfk.nombre
+            diclistesp.append(dicespecie)
+
+            listVariedades = []
+            listdicvar = []
+            for v in range(len(camvar)):
+                dicvar = {}
+                print(camvar[v].idvarfk.variedad)
+                listVariedades.append(camvar[v].idvarfk.variedad)
+                dicvar['text']=camvar[v].idvarfk.variedad
+                listdicvar.append(dicvar)
+
+        
+                cuar = Cuarteles.objects.filter(idcamfk=camp[c].idcamp,idespfk=esp[e].idespfk.idesp,idvarfk=camvar[v].idvarfk.idvar)
+                listaCuarteles = []
+                
+                listdiccuartel = []
+                
+                for cu in range(len(cuar)):
+                    diccuartel = {}
+                    print(cuar[cu].nomcuartel)
+                    listaCuarteles.append(cuar[cu].nomcuartel)
+                    
+                    diccuartel['text']=cuar[cu].nomcuartel
+                    listdiccuartel.append(diccuartel)
+                    
+                listVariedades.append(listaCuarteles)
+                listdicvar[v]['children']=listdiccuartel
+                print(listdiccuartel)
+                #input()
+
+            listEspecie.append(listVariedades)
+            print(listdicvar)
+            diclistesp[e]['children']=listdicvar
+        
+        listcontenedora[c].append(listEspecie)
+        
+        diccamp['children']= diclistesp
+        
+    
+    data = listadic   
+        
+
+    print("")
+
+    #print(listcontenedora)
+    print("")
+    print(listadic)
+
+    
+   
+
+    return HttpResponse(json.dumps(data), content_type = "application/json")

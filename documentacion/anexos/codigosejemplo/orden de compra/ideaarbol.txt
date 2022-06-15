@@ -1,0 +1,24 @@
+ # for i in camp:
+    #     print(i.nomcam)
+    #     ncampo = []
+    #     ncampo.append(i.nomcam)
+    #     listcontenedora.append(ncampo)
+
+    #     esp = Campoespecies.objects.filter(idcamfk=i.idcamp)
+    #     for j in esp:
+    #         print("--->",j.idespfk.nombre)
+    #         ezpecie = []
+    #         ezpecie.append(j.idespfk.nombre)
+    #         listcontenedora.append(ezpecie)
+            
+
+    #         camvar = Campovariedades.objects.filter(idcamfk=i.idcamp,idespfk=j.idespfk.idesp)
+    #         for h in camvar:
+    #             print('----->',h.idvarfk.variedad)
+    #             variedadd = []
+    #             variedadd.append(h.idvarfk.variedad)
+    #             listcontenedora.append(variedadd)
+                
+    #             cuar = Cuarteles.objects.filter(idcamfk=i.idcamp,idespfk=j.idespfk.idesp,idvarfk=h.idvarfk.idvar)
+    #             for c in cuar:
+    #                 print("------->",c.nomcuartel)

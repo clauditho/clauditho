@@ -1,0 +1,193 @@
+{% extends "dashboard/home/index.html" %}
+
+
+{% block main %}
+<head> 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    
+    <!--jstree -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.8/themes/default/style.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.8/jstree.min.js"></script>
+   
+    <!--------------------------------------------->
+
+
+    <script type="text/javascript">
+        
+        $(function () {
+            $.ajax({
+                async: true,
+                type: "GET",
+                url : {% url 'app:arbol' %},
+                //url: "http://localhost:8080/arbol",
+                dataType: "json",
+                success: function (json) {
+                    createJSTree(json);
+                },
+
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(lalala);
+                }
+            });            
+        });
+            
+        function createJSTree(jsondata) {            
+            $('#SimpleJSTree').jstree({
+            
+            'plugins': ['search', 'checkbox', 'wholerow'],
+                'core': {
+                    'data':jsondata
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        $(document).ready(function(){
+        $(".prodserv").click(function(evento){
+          
+            var valor = $(this).val();
+            console.log(valor);
+            if(valor == 'productos'){
+                $("#prod").css("display", "block");
+                $("#serv").css("display", "none");
+            }else{
+                $("#prod").css("display", "none");
+                $("#serv").css("display", "block");
+            }
+            });
+        });
+    </script>
+
+ </head>
+  <body style="background-color:#D5F5E3;">
+    
+    
+
+
+    <div class="container center">
+
+      <br/>
+      <br>
+
+
+
+      <form class="row g-5 border ">
+   
+    
+  
+        <!--FECHA--->
+        <div class="col-md-3">
+          <label for="inputEmail4" class="form-label">Fecha</label>
+          <input id="fecha" name="fecha" type="date" class="form-control">
+        </div>
+        <!-------->
+   
+   
+        <!--numero orden de compra---> 
+        <div class="col-2">
+            <label for="inputEmail4" class="form-label">N° OC</label>
+            <input type="text" class="form-control" id="inputEmail4">
+          </div>
+        <!------>
+
+ 
+
+
+        <!--Proveedor-->
+
+        <div class="col-md-3">
+          <label for="inputState" class="form-label">Proveedor</label>
+          <select id="proveedor" class="form-select">
+            
+            <option selected>Seleccione</option>
+            
+            {% for item in prov %}
+              <option value="{{item.idproveedor}}"> {{item.nombre}} </option>
+            {% endfor %}
+          
+          
+          </select>
+        </div>
+
+        <!------------------------>
+
+
+
+
+        <!---Moneda---------------------------------------->
+
+        <div class="col-md-2">
+          <label for="inputState" class="form-label">Moneda</label>
+          <select id="inputState" class="form-select">
+            <option selected>Seleccione</option>
+            
+            {% for item in moneda %}
+              <option value="{{item.idmoneda}}"> {{item.codigoiso}} -- {{item.pais}} </option>
+            {% endfor %}
+
+
+          </select>
+        </div>
+
+        <!---------------------------------------------------------->
+
+          <!---Forma de pagp---------------------------------------->
+
+          <div class="col-md-2">
+            <label for="inputState" class="form-label">Forma de Pago</label>
+            <select id="inputState" class="form-select">
+              <option selected>Seleccione</option>
+              {% for item in fpago %}
+                <option value="{{item.idfpago}}"> {{item.fpago}} </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!---------------------------------------------->
+
+
+
+        <div class="col-md-2">
+          <p></p>
+        </div>   
+
+        <!---Cuarteles---------------------------------------->
+        
+
+        <div class="col-md-8" >
+          <p></p>
+          <p></p>
+          <p></p>
+          <br>
+          <p style="text-align: center;">Centro de costos</p>
+          <div id="SimpleJSTree" style="text-align: center;"></div>
+        </div>
+
+        <!----------------------------------------------------------->
+
+        
+          <div class="col-md-2">
+          <p></p>
+            </div>
+          
+   
+    
+ 
+   
+  </form>
+
+
+
+</div>
+    
+        
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+ </body>
+ 
+ {% endblock %}

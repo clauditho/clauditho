@@ -1,0 +1,71 @@
+﻿{% extends 'base/main.html' %}
+{% load static %}
+
+{% block content %}
+
+	<nav class="navbar-default navbar-side" role="navigation">
+		<div class="sidebar-collapse">
+			<ul class="nav" id="main-menu">
+
+				<li>
+					<a class="active-menu waves-effect waves-dark" href="#">Dashboard</a>
+				</li>
+				<li>
+					<a href="ui-elements.html" class="waves-effect waves-dark"> UI Elements</a>
+				</li>
+				<li>
+					<a href="chart.html" class="waves-effect waves-dark"> Charts</a>
+				</li>
+				<li>
+					<a href="tab-panel.html" class="waves-effect waves-dark"> Tabs & Panels</a>
+				</li>
+				
+				<li>
+					<a href="table.html" class="waves-effect waves-dark"> Responsive Tables</a>
+				</li>
+				<li>
+					<a href="form.html" class="waves-effect waves-dark"> Forms </a>
+				</li>
+				<li>
+					<a href="empty.html" class="waves-effect waves-dark"> Empty Page</a>
+				</li>
+			</ul>
+
+		</div>
+
+	</nav>
+
+	<div id="page-wrapper">
+		<div class="header"> 
+			<h1 class="page-header">
+				Dashboard
+			</h1>
+
+  	</div>
+		
+		  <div id="page-inner">
+			<div class="dashboard-cards"> 
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+					
+						<div class="card horizontal cardIcon waves-effect waves-dark">
+							<div class="card-image red"></div>
+								<div class="card-stacked red">
+									<div class="card-content">
+										<h3>84,198</h3> 
+									</div>
+									<div class="card-action">
+										<strong>REVENUE</strong>
+								</div>
+							</div>
+						</div>
+	 
+                    </div>
+				</div>
+			</div>
+		  </div>
+		
+
+
+
+{% endblock content %}

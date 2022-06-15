@@ -1,0 +1,573 @@
+{% extends "dashboard/home/index.html" %}
+
+
+{% block main %}
+<head> 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    
+    <!--jstree -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.8/themes/default/style.min.css" />
+    <script
+			  src="https://code.jquery.com/jquery-3.6.0.min.js"
+			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.8/jstree.min.js"></script>
+   
+    <!--------------------------------------------->
+
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css"/>
+ 
+
+
+
+    <script type="text/javascript">
+        
+        $(function () {
+            $.ajax({
+                async: true,
+                type: "GET",
+                url : {% url 'app:arbol' %},
+                //url: "http://localhost:8080/arbol",
+                dataType: "json",
+                success: function (json) {
+                    createJSTree(json);
+                },
+
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(error);
+                }
+            });            
+        });
+            
+        function createJSTree(jsondata) {            
+            $('#SimpleJSTree').jstree({
+            
+            'plugins': ['search', 'checkbox', 'wholerow'],
+                'core': {
+                    'data':jsondata
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        $(document).ready(function(){
+        $(".prodserv").click(function(evento){
+          
+            var valorradio = $(this).val();
+            console.log(valorradio);
+            if(valorradio == 'productos'){
+                $("#prod").css("display", "block");
+                $("#serv").css("display", "none");
+            }else{
+                $("#prod").css("display", "none");
+                $("#serv").css("display", "block");
+            }
+            });
+        });
+    </script>
+
+
+    
+
+      <script>
+    function ordenarSelect(id_componente)
+    {
+      var selectToSort = jQuery('#' + id_componente);
+      var optionActual = selectToSort.val();
+      
+      
+      selectToSort.html(selectToSort.children('option').sort(function (a, b) {
+        if (b.text != 'Seleccione'){
+        return a.text === b.text ? 0 : a.text < b.text ? -1  : 1;
+        }
+      })).val(optionActual);
+    
+    }
+    $(document).ready(function () {
+      ordenarSelect('producto');
+    });
+  </script>
+
+
+  
+      
+    
+
+ </head>
+  <body >
+    
+   <div class="container border">
+    <br>
+    <form action="">
+    <div class="row m-0 justify-content-center" >
+      
+      <div class="col-6">
+
+        <div class="row">
+          <div class="col-3">
+            </div>
+          
+          <div class="col-6" >
+            <!--FECHA--->
+      
+            <label for="inputEmail4" class="form-label">Fecha</label>
+            <input id="fecha" name="fecha" type="date" class="form-control">
+      
+            <!-------->
+          </div>
+          <div class="col-3">
+            </div>
+          
+        </div>
+
+        <br>
+
+
+        <div class="row">
+          <div class="col-3">
+            </div>
+          
+          <div class="col-6" >
+            <!--numero orden de compra---> 
+    
+          <label for="inputEmail4" class="form-label">N° OC</label>
+          <input type="text" class="form-control" id="inputEmail4">
+    
+            <!------>
+          </div>
+          <div class="col-3">
+            </div>
+          
+        </div>
+
+        <br>
+        <div class="row">
+          <div class="col-3">
+            </div>
+          
+          <div class="col-6" >
+            <!--Proveedor-->
+
+              
+                <label for="inputState" class="form-label">Proveedor</label>
+                <select id="proveedor" class="form-select">
+                  
+                  <option selected>Seleccione</option>
+                  
+                  {% for item in prov %}
+                    <option value="{{item.idproveedor}}"> {{item.nombre}} </option>
+                  {% endfor %}
+                
+                
+                </select>
+             
+
+          <!------------------------>
+          </div>
+          <div class="col-3">
+            </div>
+          
+        </div>
+
+        <br>
+        <div class="row">
+          <div class="col-3">
+            </div>
+          
+          <div class="col-6" >
+            
+            <!---Moneda---------------------------------------->
+
+              
+                <label for="inputState" class="form-label">Moneda</label>
+                <select id="inputState" class="form-select">
+                  <option selected>Seleccione</option>
+                  
+                  {% for item in moneda %}
+                    <option value="{{item.idmoneda}}"> {{item.codigoiso}} -- {{item.pais}} </option>
+                  {% endfor %}
+
+
+                </select>
+            
+
+            <!---------------------------------------------------------->
+
+          
+          </div>
+          <div class="col-3">
+            </div>
+          
+        </div>
+
+        <br>
+        <div class="row">
+          <div class="col-3">
+            </div>
+          
+          <div class="col-6" >
+            
+            <!---Forma de pagp---------------------------------------->
+
+            
+              <label for="inputState" class="form-label">Forma de Pago</label>
+              <select id="inputState" class="form-select">
+                <option selected>Seleccione</option>
+                {% for item in fpago %}
+                  <option value="{{item.idfpago}}"> {{item.fpago}} </option>
+                {% endfor %}
+              </select>
+            
+
+            <!---------------------------------------------->
+
+
+          
+          </div>
+          <div class="col-3">
+            </div>
+          
+        </div>
+        
+        
+        </div>
+
+
+        <div class="col-6">
+          <label for="inputState" class="form-label">Centro de Costos</label>
+
+          <style type="text/css">
+              #global {
+                height: 300px;
+                width: 350px;
+                border: 1px solid #ddd;
+                background: #f1f1f1;
+                overflow-y: scroll;
+              }
+              #mensajes {
+                height: auto;
+              }
+              .texto {
+                padding:4px;
+                background:#fff;
+              }
+              </style>
+              <div id="global">
+                <div id="mensajes">
+                  <div id="SimpleJSTree"></div>
+                </div>
+              </div>
+        
+            <br>
+
+            <div class="row">
+            
+              <div class="col-md-12">
+                    <label for="Textarea1" class="form-label">Observaciones</label>
+                    <textarea class="form-control" id="servizio" rows="2"></textarea>
+                    
+                    </div>
+                  </div>
+        
+        
+          </div>
+      
+      
+      
+      </div>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-1">
+          </div>
+        
+
+            <div class="col-md-5">
+                <input class="form-check-input prodserv" type="radio" name="prodserv" id="prodserv" value="productos" checked>
+                <label class="form-check-label" for="flexRadioDefault2">Agroquimicos/insumos</label>
+              </div>
+              <div class="col-md-5">
+                <input class="form-check-input prodserv" type="radio" name="prodserv" id="servv" value="servicios" >
+                <label class="form-check-label" for="flexRadioDefault2">Servicios</label>
+              </div>
+
+
+          <div class="col-md-1">
+          </div> 
+        </div>
+
+          <br>
+          <br>
+
+        <!--------------------FILA-------------------------------------------->
+            <!----- Cantidad ---------->
+            <div class="row">
+              <div class="col-md-1">
+                <label for="" class="form-label">Cantidad</label>
+                <input type="text" class="form-control" id="cantidad">
+              </div>
+            <!---------------------------------------------->  
+
+              
+            <!----------------medida------------------------->
+            <div class="col-md-1">
+              <label for="inputState" class="form-label">Medida</label>
+                <select id="medida" class="form-select">
+                  <option value="0"  >Seleccione</option>
+                  {% for item in medida %}
+                    <option value="{{item.idmedida}}"> {{item.umedida}} </option>
+                  {% endfor %}
+                </select>
+                </div>
+
+              <!---------------------------------------------------->
+              
+              <!-----------------Producto/servicio------------------------------>
+                <div class="col-md-2" id="prod" name="prod">
+                    <label for="inputState" class="form-label">Productos</label>
+                      <select id="producto" class="form-select">
+                        <option value="0" selected>Seleccione</option>
+                        {% for item in prod %}
+                          <option value="{{item.idprod}}"> {{item.nomprod}} </option>
+                        {% endfor %}
+                      </select>
+                  </div>
+
+                  <div class="col-md-2" id="serv" style="display: none">
+                    <label for="Textarea1" class="form-label">Servicios</label>
+                    <textarea class="form-control" id="servizio" rows="3"></textarea>
+                    
+                    </div>
+
+                  <!------------------------------------------------------->
+                
+                     <!--------------Item Gasto--------------------------> 
+                      <div class="col-md-2">
+                        <label for="inputState" class="form-label">Item Gasto</label>
+                          <select id="gasto" class="form-select">
+                            <option value="0" selected>Seleccione</option>
+                            {% for item in pcuentas %}
+                              <option value="{{item.idplan}}"> {{item.descripcion}} </option>
+                            {% endfor %}
+                          </select>
+                      </div>
+                      
+                      <!-------------------Unitario------------------------------>
+                      <div class="col-md-2">
+                        <label for="" class="form-label">Unitario</label>
+                        <input type="text" class="form-control decimal" id="unitario">
+                      </div>
+
+                      <!---------------------------------------------------->
+
+                      
+                      <!----------exento--------------------->
+                      <div class="col-md-2">
+                        <label for="" class="form-label">Exento</label>
+                        <input type="text" class="form-control decimal" id="exento">
+                      </div>
+
+                      <!-------------------------------------------------->
+            
+            </div>
+
+            <div class="row">
+              <div class="col-md-2">
+                
+                </div>
+
+                <div class="col-md-2">
+                
+              </div>
+              
+              <div class="col-md-2">
+                
+              </div>
+
+              <div class="col-md-2">
+                
+              </div>
+              <div class="col-md-2">
+                
+              </div>
+
+              <div class="col-md-2">
+                <button type="button" class="btn btn-primary" id="btnagregar">+</button>
+                </div>
+                  
+              </div>
+
+              <div>
+                <div id="status">
+                  <table id="tabla1" class="display" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Cantidad</th>
+                        <th>Umedida</th>
+                        <th>Prod/Serv</th>
+                        <th>Item Gasto</th>
+                        <th>$ Unitario</th>
+                        <th>$ Exento</th>
+                        </tr>
+                      
+                      </thead>
+                      <tfoot>
+                        <tr>
+                            <th colspan="4" style="text-align:right" id="tot">Total:</th>
+                            <th></th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                </div>
+                
+                
+              </div>
+
+
+    </form>
+    
+    
+    
+    </div>
+
+
+   
+
+                  <script>
+                    $(document).ready(function()
+                      {
+                        var t = $('#tabla1').DataTable(
+                          {paging: false,
+                          ordering: false,
+                          info: false,
+                          searching:false,
+                      });
+                        var acumulador = 0;
+                        
+                            $("#btnagregar").click(function () {
+                              if ($("#cantidad").val() != "" && $("#unitario").val() != "" && $("#exento").val() != "" 
+                                  && $("#medida option:selected").html() != "Seleccione" && $("#gasto option:selected").html() != "Seleccione"
+                              
+                              ){
+                                var cant = $("#cantidad").val();
+                                var med = $("#medida option:selected").html();
+                                var opt= $("input[name='prodserv']:checked").val();
+                                
+                                if (opt=='productos'){
+                                    var prodServ = $("#producto option:selected").html();
+                                    
+                                  } 
+                                else if (opt=='servicios'){
+                                  var prodServ = $("#servizio").val();
+                                }
+                                
+                                var igasto = $("#gasto option:selected").html();
+                                var unit = $("#unitario").val();
+                                var excent = $("#exento").val();
+                                console.log(unit);
+                                console.log(excent);
+                                var data = [cant,med,prodServ,igasto,unit,excent];
+                                t.row.add(data).draw(false)
+                                
+
+                                $("#cantidad").val("");
+                                $("#unitario").val("");
+                                $("#exento").val("");
+
+                                $("#medida").val('0');
+                                $("#gasto").val('0');
+                                $("#producto").val('0');
+                                $("#servizio").val('');
+
+                                if (opt=='productos'){
+                                  $("#servv").prop("disabled", true); 
+                                    
+                                  } 
+                                else {
+                                  $("#prodserv").prop("disabled", true);
+                                }
+
+                                var tot = t.column( 4 ).data().sum();
+                                console.log(tot);
+
+                                $('#tot').text('Total: '+tot)
+
+                                
+                                
+
+
+
+
+                                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                
+                              };
+                      
+                      
+                      
+                      });
+                        		
+                    });
+                </script>
+
+
+<script>
+          const number = document.querySelector('#unitario');
+
+          function formatNumber (n) {
+            n = String(n).replace(/\D/g, "");
+            return n === '' ? n : Number(n).toLocaleString();
+          }
+          number.addEventListener('keyup', (e) => {
+            const element = e.target;
+            const value = element.value;
+            element.value = formatNumber(value);
+          });
+</script>
+
+<script>
+          const number2 = document.querySelector('#exento');
+
+          function formatNumber (n) {
+            n = String(n).replace(/\D/g, "");
+            return n === '' ? n : Number(n).toLocaleString();
+          }
+          number2.addEventListener('keyup', (e) => {
+            const element = e.target;
+            const value = element.value;
+            element.value = formatNumber(value);
+          });
+</script>
+
+
+
+
+
+
+
+
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.12.1/api/sum().js"></script>
+    </body>
+ 
+ {% endblock %}

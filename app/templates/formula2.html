@@ -102,7 +102,7 @@
     
    <div class="container border">
     <br>
-    <form action="">
+    <form method="post">
     <div class="row m-0 justify-content-center" >
       
       <div class="col-6">
@@ -110,7 +110,7 @@
         <div class="row">
           <div class="col-3">
             </div>
-          
+          {%  csrf_token  %}
           <div class="col-6" >
             <!--FECHA--->
       
@@ -134,8 +134,8 @@
           <div class="col-6" >
             <!--numero orden de compra---> 
     
-          <label for="inputEmail4" class="form-label">N° OC</label>
-          <input type="text" class="form-control" id="inputEmail4">
+          <label for="" class="form-label">N° OC</label>
+          <input type="text" class="form-control" id="numoc">
     
             <!------>
           </div>
@@ -412,21 +412,34 @@
                         <th>Item Gasto</th>
                         <th>$ Unitario</th>
                         <th>$ Exento</th>
+                        <th></th>
+                        <th>calculo</th>
                         </tr>
                       
                       </thead>
                       <tfoot>
                         <tr>
-                            <th colspan="4" style="text-align:right" id="tot">Total:</th>
                             <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Totales: </th>
+                            <th id="totUni">123456789</th>
+                            
+
+                            
+                        
+
+
+                            
                         </tr>
                       </tfoot>
                     </table>
                 </div>
                 
-                
+                <input type="text"  id="escondido" style="display:none;" value="0">
               </div>
 
+              <button type="button" id="submit">Aceptar</button>
 
     </form>
     
@@ -440,14 +453,31 @@
                   <script>
                     $(document).ready(function()
                       {
+                        
                         var t = $('#tabla1').DataTable(
                           {paging: false,
                           ordering: false,
                           info: false,
                           searching:false,
+
+                          columnDefs: [
+                            {
+                                target: 7,
+                                visible: false,
+                                searchable: false,
+                            },
+                            
+                        ],
                       });
                         var acumulador = 0;
                         
+                        $('#tabla1 tbody').on('click','button', function () {
+                        
+                            var data = t.row($(this).parents('tr')).data();
+                            alert(data[2]);
+                        });
+                       
+
                             $("#btnagregar").click(function () {
                               if ($("#cantidad").val() != "" && $("#unitario").val() != "" && $("#exento").val() != "" 
                                   && $("#medida option:selected").html() != "Seleccione" && $("#gasto option:selected").html() != "Seleccione"
@@ -470,8 +500,21 @@
                                 var excent = $("#exento").val();
                                 console.log(unit);
                                 console.log(excent);
-                                var data = [cant,med,prodServ,igasto,unit,excent];
-                                t.row.add(data).draw(false)
+                               
+                               //var  multUnitario = t.column(4).data().sum() * parseFloat(cant);
+                              
+
+                               resultado = (parseFloat(unit) + parseFloat(excent)) * parseFloat(cant);
+                               
+                               
+                               
+                                var data = [cant,med,prodServ,igasto,unit,excent,
+                                
+                                   '<button type="button" id="borra">Click!</button>',
+                                   resultado
+                                ];
+                                t.row.add(data).draw(false);
+
                                 
 
                                 $("#cantidad").val("");
@@ -491,10 +534,22 @@
                                   $("#prodserv").prop("disabled", true);
                                 }
 
-                                var tot = t.column( 4 ).data().sum();
-                                console.log(tot);
+                                /* totUnitario = parseFloat(t.column(5).data().sum());
+                                totExento = parseFloat(t.column(7).data().sum());
+                                $('#totaluni').text(totUnitario);
+                                $('#totalex').text(totExento); */
+                                toUni = parseFloat(t.column(7).data().sum());
+                                $('#totUni').text(toUni);
+                                // totAcumulado =   (totAcumulado + parseFloat(t.column( 4 ).data().sum())) * parseFloat(cant);
+                                // var totexen = t.column( 5 ).data().sum() * parseFloat(cant);
+                                // console.log(totAcumulado);
 
-                                $('#tot').text('Total: '+tot)
+                                // $('#totaluni').text(totAcumulado);
+                                // $('#totalexe').text(totexen);
+
+
+
+                                
 
                                 
                                 
@@ -522,40 +577,77 @@
                       
                       
                       });
-                        		
+                        
+                      
+
+
                     });
                 </script>
 
 
-<script>
-          const number = document.querySelector('#unitario');
 
-          function formatNumber (n) {
-            n = String(n).replace(/\D/g, "");
-            return n === '' ? n : Number(n).toLocaleString();
-          }
-          number.addEventListener('keyup', (e) => {
-            const element = e.target;
-            const value = element.value;
-            element.value = formatNumber(value);
-          });
-</script>
+
 
 <script>
-          const number2 = document.querySelector('#exento');
+          //const number = document.querySelector('#unitario');
 
-          function formatNumber (n) {
-            n = String(n).replace(/\D/g, "");
-            return n === '' ? n : Number(n).toLocaleString();
-          }
-          number2.addEventListener('keyup', (e) => {
-            const element = e.target;
-            const value = element.value;
-            element.value = formatNumber(value);
-          });
+          //function formatNumber (n) {
+            //n = String(n).replace(/\D/g, "");
+           //return n === '' ? n : Number(n).toLocaleString();
+          //}
+          //number.addEventListener('keyup', (e) => {
+            //const element = e.target;
+            //const value = element.value;
+            //element.value = formatNumber(value);
+          //});
 </script>
 
+// <script>
+//           const number2 = document.querySelector('#exento');
 
+//           function formatNumber (n) {
+//             n = String(n).replace(/\D/g, "");
+//             return n === '' ? n : Number(n).toLocaleString();
+//           }
+//           number2.addEventListener('keyup', (e) => {
+//             const element = e.target;
+//             const value = element.value;
+//             element.value = formatNumber(value);
+//           });
+// </script>
+
+<script>
+  $(document).ready(function(){
+      $('#submit').on('click',function(){
+        $fecha = $('#fecha').val();
+        console.log($fecha);
+
+        if ($fecha == ""){
+          alert("Complete los campos");
+        } else{
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:8000/insertoc1/",
+            // url: '/',
+            data: {
+              fecha: $fecha,
+              csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            
+            },
+            success: function(){
+              alert('Save Data');
+              $('#fecha').val('');
+              
+
+              window.location = "/";
+            } 
+          });
+        }
+      });
+  });
+  
+  
+  </script>
 
 
 

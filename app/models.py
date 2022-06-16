@@ -103,6 +103,15 @@ class Monedas(models.Model):
         db_table = 'monedas'
 
 
+class Numocfecha(models.Model):
+    numoc = models.AutoField(primary_key=True)
+    fecha = models.DateField()
+
+    class Meta:
+        managed = False
+        db_table = 'numocfecha'
+
+
 class Plandecuentas(models.Model):
     idplan = models.AutoField(primary_key=True)
     codigo = models.CharField(max_length=10, blank=True, null=True)
@@ -150,6 +159,17 @@ class Proveedores(models.Model):
         db_table = 'proveedores'
 
 
+class Sgaoc(models.Model):
+    idoc = models.AutoField(primary_key=True)
+    numocfk = models.IntegerField()
+    proveedor = models.CharField(max_length=100)
+    moneda = models.CharField(max_length=4)
+
+    class Meta:
+        managed = False
+        db_table = 'sgaoc'
+
+
 class Usuarios(models.Model):
     rut = models.CharField(primary_key=True, max_length=100)
     nombre = models.CharField(max_length=70)
@@ -175,4 +195,3 @@ class Variedades(models.Model):
     class Meta:
         managed = False
         db_table = 'variedades'
-

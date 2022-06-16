@@ -13,5 +13,6 @@ urlpatterns = [
    path('', all_category,name='all_category'),
     path('arbol/',arbol,name='arbol'),
     path('formu/',formu,name='formu'),
+    path('insertoc1/',views.insertoc1,name='insertoc1'),
 
 ]

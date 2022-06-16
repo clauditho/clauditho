@@ -6,10 +6,10 @@
 #import django.db.backends.mysql as conectar
 #from .forms import *
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from matplotlib.font_manager import json_dump
 from pandas import Categorical
-from .models import Usuarios,Campos,Campoespecies,Campovariedades,Cuarteles,Categorias,Productos,Proveedores,Monedas,Formadepago,Medidas,Plandecuentas
+from .models import Usuarios,Campos,Campoespecies,Campovariedades,Cuarteles,Categorias,Productos,Proveedores,Monedas,Formadepago,Medidas,Plandecuentas,Numocfecha
 from django.http import HttpResponse, JsonResponse
 import json
 
@@ -158,6 +158,15 @@ def formu(request):
     }
 
     return render(request,template_name,context)
+
+
+
+def insertoc1(request):
+    noc = Numocfecha.objects.all()
+    oc = Numocfecha(fecha=request.POST['fecha'])
+    print('chupalo')
+    oc.save()
+    return redirect('/')
 
 
 

@@ -164,7 +164,7 @@ def formu(request):
 def insertoc1(request):
     noc = Numocfecha.objects.all()
     oc = Numocfecha(fecha=request.POST['fecha'])
-    print('chupalo')
+    print('lalala')
     oc.save()
     return redirect('/')
 

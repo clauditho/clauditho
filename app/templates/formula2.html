@@ -12,11 +12,14 @@
 			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
 			  crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.8/jstree.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/0272346058.js" crossorigin="anonymous"></script>
+
    
     <!--------------------------------------------->
 
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/af-2.4.0/b-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.3/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.6/sb-1.3.3/sl-1.4.0/sr-1.1.1/datatables.min.css"/>
  
 
 
@@ -400,41 +403,41 @@
                 </div>
                   
               </div>
-
+              <button type="button" id="borra"   class="btn btn-primary"><i class="fa-thin fa-trash-can"></i>borar</button>
               <div>
                 <div id="status">
-                  <table id="tabla1" class="display" style="width:100%">
-                    <thead>
-                      <tr>
-                        <th>Cantidad</th>
-                        <th>Umedida</th>
-                        <th>Prod/Serv</th>
-                        <th>Item Gasto</th>
-                        <th>$ Unitario</th>
-                        <th>$ Exento</th>
-                        <th></th>
-                        <th>calculo</th>
-                        </tr>
-                      
-                      </thead>
-                      <tfoot>
+                  
+                    <table id="tabla1" class="cell-border hover" style="width:100%">
+                      <thead>
                         <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th>Totales: </th>
-                            <th id="totUni">123456789</th>
-                            
-
-                            
+                          <th>Cantidad</th>
+                          <th>Umedida</th>
+                          <th>Prod/Serv</th>
+                          <th>Item Gasto</th>
+                          <th>$ Unitario</th>
+                          <th>$ Exento</th>
+                          <th></th>
+                          <th>calculo</th>
+                          </tr>
                         
-
-
-                            
-                        </tr>
-                      </tfoot>
-                    </table>
-                </div>
+                        </thead>
+                        <tfoot>
+                          <tr>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th>Total: </th>
+                              <th id="totUni"></th>
+                          </tr>
+                        </tfoot>
+                      </table>
+                 
+                 
+        
+                
+                
+                
+                  </div>
                 
                 <input type="text"  id="escondido" style="display:none;" value="0">
               </div>
@@ -450,171 +453,39 @@
 
    
 
-                  <script>
-                    $(document).ready(function()
-                      {
-                        
-                        var t = $('#tabla1').DataTable(
-                          {paging: false,
-                          ordering: false,
-                          info: false,
-                          searching:false,
-
-                          columnDefs: [
-                            {
-                                target: 7,
-                                visible: false,
-                                searchable: false,
-                            },
-                            
-                        ],
-                      });
-                        var acumulador = 0;
-                        
-                        $('#tabla1 tbody').on('click','button', function () {
-                        
-                            var data = t.row($(this).parents('tr')).data();
-                            alert(data[2]);
-                        });
-                       
-
-                            $("#btnagregar").click(function () {
-                              if ($("#cantidad").val() != "" && $("#unitario").val() != "" && $("#exento").val() != "" 
-                                  && $("#medida option:selected").html() != "Seleccione" && $("#gasto option:selected").html() != "Seleccione"
-                              
-                              ){
-                                var cant = $("#cantidad").val();
-                                var med = $("#medida option:selected").html();
-                                var opt= $("input[name='prodserv']:checked").val();
-                                
-                                if (opt=='productos'){
-                                    var prodServ = $("#producto option:selected").html();
-                                    
-                                  } 
-                                else if (opt=='servicios'){
-                                  var prodServ = $("#servizio").val();
-                                }
-                                
-                                var igasto = $("#gasto option:selected").html();
-                                var unit = $("#unitario").val();
-                                var excent = $("#exento").val();
-                                console.log(unit);
-                                console.log(excent);
-                               
-                               //var  multUnitario = t.column(4).data().sum() * parseFloat(cant);
-                              
-
-                               resultado = (parseFloat(unit) + parseFloat(excent)) * parseFloat(cant);
-                               
-                               
-                               
-                                var data = [cant,med,prodServ,igasto,unit,excent,
-                                
-                                   '<button type="button" id="borra">Click!</button>',
-                                   resultado
-                                ];
-                                t.row.add(data).draw(false);
-
-                                
-
-                                $("#cantidad").val("");
-                                $("#unitario").val("");
-                                $("#exento").val("");
-
-                                $("#medida").val('0');
-                                $("#gasto").val('0');
-                                $("#producto").val('0');
-                                $("#servizio").val('');
-
-                                if (opt=='productos'){
-                                  $("#servv").prop("disabled", true); 
-                                    
-                                  } 
-                                else {
-                                  $("#prodserv").prop("disabled", true);
-                                }
-
-                                /* totUnitario = parseFloat(t.column(5).data().sum());
-                                totExento = parseFloat(t.column(7).data().sum());
-                                $('#totaluni').text(totUnitario);
-                                $('#totalex').text(totExento); */
-                                toUni = parseFloat(t.column(7).data().sum());
-                                $('#totUni').text(toUni);
-                                // totAcumulado =   (totAcumulado + parseFloat(t.column( 4 ).data().sum())) * parseFloat(cant);
-                                // var totexen = t.column( 5 ).data().sum() * parseFloat(cant);
-                                // console.log(totAcumulado);
-
-                                // $('#totaluni').text(totAcumulado);
-                                // $('#totalexe').text(totexen);
-
-
-
-                                
-
-                                
-                                
-
-
-
-
-                                  
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                
-                              };
-                      
-                      
-                      
-                      });
-                        
-                      
-
-
-                    });
-                </script>
+                  
 
 
 
 
 
 <script>
-          //const number = document.querySelector('#unitario');
+          const number = document.querySelector('#unitario');
 
-          //function formatNumber (n) {
-            //n = String(n).replace(/\D/g, "");
-           //return n === '' ? n : Number(n).toLocaleString();
-          //}
-          //number.addEventListener('keyup', (e) => {
-            //const element = e.target;
-            //const value = element.value;
-            //element.value = formatNumber(value);
-          //});
+          function formatNumber (n) {
+            n = String(n).replace(/\D/g, "");
+           return n === '' ? n : Number(n).toLocaleString();
+          }
+          number.addEventListener('keyup', (e) => {
+            const element = e.target;
+            const value = element.value;
+            element.value = formatNumber(value);
+          });
 </script>
 
-// <script>
-//           const number2 = document.querySelector('#exento');
+<script>
+          const number2 = document.querySelector('#exento');
 
-//           function formatNumber (n) {
-//             n = String(n).replace(/\D/g, "");
-//             return n === '' ? n : Number(n).toLocaleString();
-//           }
-//           number2.addEventListener('keyup', (e) => {
-//             const element = e.target;
-//             const value = element.value;
-//             element.value = formatNumber(value);
-//           });
-// </script>
+          function formatNumber (n) {
+            n = String(n).replace(/\D/g, "");
+            return n === '' ? n : Number(n).toLocaleString();
+          }
+          number2.addEventListener('keyup', (e) => {
+            const element = e.target;
+            const value = element.value;
+            element.value = formatNumber(value);
+          });
+</script>
 
 <script>
   $(document).ready(function(){
@@ -655,11 +526,17 @@
 
 
 
-    
+  
+ 
+ 
+ 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.12.1/af-2.4.0/b-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.3/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.6/sb-1.3.3/sl-1.4.0/sr-1.1.1/datatables.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.12.1/api/sum().js"></script>
+    
+    
+    
     </body>
  
  {% endblock %}
